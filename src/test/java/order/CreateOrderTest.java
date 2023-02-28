@@ -1,7 +1,13 @@
 package order;
 
-import example.order.*;
-import example.user.*;
+import example.order.Order;
+import example.order.OrderAssertions;
+import example.order.OrderClient;
+import example.order.OrderGenerator;
+import example.user.User;
+import example.user.UserClient;
+import example.user.UserCredentials;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Before;
@@ -20,7 +26,7 @@ public class CreateOrderTest {
 
 
     @Before
-    public void setUp(){
+    public void setUp() {
         userClient = new UserClient();
         randomUser = getRandomUser();
         orderClient = new OrderClient();
@@ -29,14 +35,15 @@ public class CreateOrderTest {
     }
 
     @After
-    public void cleanUp(){
+    public void cleanUp() {
         if (accessToken != null) {
             userClient.delete(accessToken);
         }
     }
 
     @Test
-    public void createOrderWithAuthorizationSuccessfully(){
+    @DisplayName("Create order with authorization successfully")
+    public void createOrderWithAuthorizationSuccessfully() {
         userClient.create(randomUser);
         UserCredentials credentials = UserCredentials.from(randomUser);
         ValidatableResponse loginResponse = userClient.login(credentials);
@@ -46,13 +53,15 @@ public class CreateOrderTest {
     }
 
     @Test
-    public void createOrderWithoutAuthorizationUnsuccessfully(){
+    @DisplayName("Create order without authorization unsuccessfully")
+    public void createOrderWithoutAuthorizationUnsuccessfully() {
         ValidatableResponse createResponse = orderClient.create(order);
         check.createUnsuccessfully(createResponse);
     }
 
     @Test
-    public void createOrderWithoutIngredientsUnsuccessfully(){
+    @DisplayName("Create order without ingredients unsuccessfully")
+    public void createOrderWithoutIngredientsUnsuccessfully() {
         userClient.create(randomUser);
         UserCredentials credentials = UserCredentials.from(randomUser);
         ValidatableResponse loginResponse = userClient.login(credentials);
@@ -63,7 +72,8 @@ public class CreateOrderTest {
     }
 
     @Test
-    public void createOrderWithInvalidIngredientUnsuccessfully(){
+    @DisplayName("Create order with invalid ingredients unsuccessfully")
+    public void createOrderWithInvalidIngredientUnsuccessfully() {
         userClient.create(randomUser);
         UserCredentials credentials = UserCredentials.from(randomUser);
         ValidatableResponse loginResponse = userClient.login(credentials);

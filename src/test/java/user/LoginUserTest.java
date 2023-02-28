@@ -1,6 +1,7 @@
 package user;
 
 import example.user.*;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Before;
@@ -27,6 +28,7 @@ public class LoginUserTest {
     }
 
     @Test
+    @DisplayName("User can login")
     public void userCanLogIn() {
         userClient.create(randomUser);
         UserCredentials credentials = UserCredentials.from(randomUser);
@@ -36,6 +38,7 @@ public class LoginUserTest {
     }
 
     @Test
+    @DisplayName("Log in without email unsuccessfully")
     public void logInWithoutEmailUnsuccessfully() {
         userClient.create(randomUser);
         UserCredentials credentials = UserCredentials.from(randomUser);
@@ -47,6 +50,7 @@ public class LoginUserTest {
     }
 
     @Test
+    @DisplayName("Log in without password unsuccessfully")
     public void logInWithoutPasswordUnsuccessfully() {
         userClient.create(randomUser);
         UserCredentials credentials = UserCredentials.from(randomUser);
@@ -58,6 +62,7 @@ public class LoginUserTest {
     }
 
     @Test
+    @DisplayName("Log in with invalid password unsuccessfully")
     public void logInWithInvalidPasswordUnsuccessfully() {
         userClient.create(randomUser);
         UserCredentials credentials = UserCredentials.from(randomUser);
@@ -69,6 +74,7 @@ public class LoginUserTest {
     }
 
     @Test
+    @DisplayName("Log in with invalid email unsuccessfully")
     public void logInWithInvalidEmailUnsuccessfully() {
         userClient.create(randomUser);
         UserCredentials credentials = UserCredentials.from(randomUser);

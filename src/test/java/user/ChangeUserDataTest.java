@@ -1,6 +1,10 @@
 package user;
 
-import example.user.*;
+import example.user.User;
+import example.user.UserAssertions;
+import example.user.UserClient;
+import example.user.UserCredentials;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Before;
@@ -16,21 +20,22 @@ public class ChangeUserDataTest {
     private String accessToken;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         userClient = new UserClient();
         check = new UserAssertions();
         randomUser = getRandomUser();
     }
 
     @After
-    public void cleanUp(){
+    public void cleanUp() {
         if (accessToken != null) {
             userClient.delete(accessToken);
         }
     }
 
     @Test
-    public void updateUserEmailWithAuthorizationSuccessfully(){
+    @DisplayName("Update user's email with authorization successfully")
+    public void updateUserEmailWithAuthorizationSuccessfully() {
         userClient.create(randomUser);
         UserCredentials credentials = UserCredentials.from(randomUser);
         ValidatableResponse loginResponse = userClient.login(credentials);
@@ -40,7 +45,8 @@ public class ChangeUserDataTest {
     }
 
     @Test
-    public void updateUserEmailToBusyEmailWithAuthorizationUnsuccessfully(){
+    @DisplayName("Update user's email to busy email with authorization unsuccessfully")
+    public void updateUserEmailToBusyEmailWithAuthorizationUnsuccessfully() {
         anotherRandomUser = getRandomUser();
         userClient.create(anotherRandomUser);
         String busyEmail = anotherRandomUser.getEmail();
@@ -54,7 +60,8 @@ public class ChangeUserDataTest {
     }
 
     @Test
-    public void updateUserNameWithAuthorizationSuccessfully(){
+    @DisplayName("Update user's name with authorization successfully")
+    public void updateUserNameWithAuthorizationSuccessfully() {
         userClient.create(randomUser);
         UserCredentials credentials = UserCredentials.from(randomUser);
         ValidatableResponse loginResponse = userClient.login(credentials);
@@ -64,7 +71,8 @@ public class ChangeUserDataTest {
     }
 
     @Test
-    public void updateWithoutAuthorizationUnsuccessfully(){
+    @DisplayName("Update without authorization unsuccessfully")
+    public void updateWithoutAuthorizationUnsuccessfully() {
         userClient.create(randomUser);
         UserCredentials credentials = UserCredentials.from(randomUser);
         ValidatableResponse loginResponse = userClient.login(credentials);

@@ -1,6 +1,7 @@
 package user;
 
 import example.user.*;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Before;
@@ -14,21 +15,22 @@ public class CreateUserTest {
     private String accessToken;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         userClient = new UserClient();
         check = new UserAssertions();
         randomUser = UserGenerator.getRandomUser();
     }
 
     @After
-    public void cleanUp(){
+    public void cleanUp() {
         if (accessToken != null) {
             userClient.delete(accessToken);
         }
     }
 
     @Test
-    public void userCanBeCreated(){
+    @DisplayName("User can be created")
+    public void userCanBeCreated() {
         ValidatableResponse createResponse = userClient.create(randomUser);
         check.createSuccessfully(createResponse);
         UserCredentials credentials = UserCredentials.from(randomUser);
@@ -37,7 +39,8 @@ public class CreateUserTest {
     }
 
     @Test
-    public void identicalCourierCanNotBeCreated(){
+    @DisplayName("Identical courier can't be created")
+    public void identicalCourierCanNotBeCreated() {
         userClient.create(randomUser);
         ValidatableResponse createResponse = userClient.create(randomUser);
         check.createUnsuccessfully(createResponse);
@@ -47,21 +50,24 @@ public class CreateUserTest {
     }
 
     @Test
-    public void userWithoutEmailCanNotBeCreated(){
+    @DisplayName("User without email can't be created")
+    public void userWithoutEmailCanNotBeCreated() {
         randomUser.setEmail(null);
         ValidatableResponse createResponse = userClient.create(randomUser);
         check.createUnsuccessfully(createResponse);
     }
 
     @Test
-    public void userWithoutPasswordCanNotBeCreated(){
+    @DisplayName("User without password can't be created")
+    public void userWithoutPasswordCanNotBeCreated() {
         randomUser.setPassword(null);
         ValidatableResponse createResponse = userClient.create(randomUser);
         check.createUnsuccessfully(createResponse);
     }
 
     @Test
-    public void userWithoutNameCanNotBeCreated(){
+    @DisplayName("User without name can't be created")
+    public void userWithoutNameCanNotBeCreated() {
         randomUser.setName(null);
         ValidatableResponse createResponse = userClient.create(randomUser);
         check.createUnsuccessfully(createResponse);
